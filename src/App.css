@@ -13,3 +13,14 @@ body{
 .theHeader{
   padding-top: 10px;;
 }
+.sale{
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #bf0000;
+  color: #fff;
+  padding: 5px;
+  font-size: 12px;
+  text-transform: uppercase;
+
+}
