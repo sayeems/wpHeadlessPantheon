@@ -7,6 +7,7 @@ import Products from './Products';
 import SingleProduct from './SingleProduct';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import React, {useState, useContext} from 'react';
+import CategoryItem from './CategoryItem';
 
 export const CartContext = React.createContext();
 
@@ -30,6 +31,7 @@ function App() {
             <Sidebar />
               <Switch>
                 <Route exact path="/" component={Products} />
+                <Route path="/category/:id" component={CategoryItem} />
                 <Route path="/:id" component={SingleProduct} />
               </Switch>
           </Grid>

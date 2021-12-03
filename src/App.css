@@ -1,19 +1,18 @@
-
 * {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
-.topbar{
-  background-color: #00B0FF;
+.topbar {
+  background-color: #00b0ff;
   color: #fff;
   padding: 6px 0px 7px 0px;
 }
-body{
-  background-color: #F6F9FC;
+body {
+  background-color: #f6f9fc;
 }
-.theHeader{
-  padding-top: 10px;;
+.theHeader {
+  padding-top: 10px;
 }
-.sale{
+.sale {
   position: absolute;
   top: 0;
   left: 0;
@@ -22,5 +21,10 @@ body{
   padding: 5px;
   font-size: 12px;
   text-transform: uppercase;
-
+}
+.MuiListItemButton-root.active {
+  color: #00b0ff;
+}
+p.price {
+  font-size: 18px;
 }

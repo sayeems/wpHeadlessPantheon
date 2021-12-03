@@ -1,20 +1,8 @@
 import {
     Grid,
     Typography,
-    Container,
-    Paper,
     Divider,
-    IconButton,
-    Button,
-    Stack,
-    Badge,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
     Card,
-    CardActions,
     CardContent,
     CardMedia,
     Skeleton,
@@ -29,10 +17,12 @@ import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { CartContext } from './App';
 
-const Products = (props) => {
+const CategoryItem = ({match}) => {
 
     const [loading, setLoading] = useState(true);
     const [products, setProducts] = useState();
+    const [category, setCategory] = useState();
+    const catId = match.params.id;
     const baseUrl = 'https://dev-wpsayeem.pantheonsite.io/wp-json/';
     const consumer_key = "ck_c329e792c17199570591fac87fdedba24d51dc38";
     const consumer_secret = "cs_b6ac8847b7af33d51dca2660a4bcf1529578f37e";
@@ -42,18 +32,20 @@ const Products = (props) => {
     useEffect(() => {
         const fetchProduct = async () => {
             setLoading(true);
-            const data = await axios.get(`${baseUrl}wc/v3/products?consumer_key=${consumer_key}&consumer_secret=${consumer_secret}`);
+            const data = await axios.get(`${baseUrl}wc/v3/products?category=${catId}&consumer_key=${consumer_key}&consumer_secret=${consumer_secret}`);
+            const catData = await axios.get(`${baseUrl}wc/v3/products/categories/${catId}?consumer_key=${consumer_key}&consumer_secret=${consumer_secret}`);
             setProducts(data.data);
-            console.log(data.data);
+            setCategory(catData.data);
             setLoading(false);
         }
         return fetchProduct();
-    }, []);
+    }, [catId]);
     //sayeem
 
     return (
         <Grid item xs={10} style={{ paddingLeft: '15px' }}>
-            <h3>Products</h3>
+            {!loading && <h3>{category.name}</h3>}
+            {loading && <Skeleton sx={{ mt: 2, mb: 3 }} variant="rectangular" height={16} />}
             <Divider />
             <Grid container spacing={2}>
                 {!loading &&
@@ -80,6 +72,7 @@ const Products = (props) => {
                                     : 
                                     <p className="price">৳{item.price}</p> 
                                     }
+                                    
                                 </CardContent>
                                 <SpeedDial
                                     ariaLabel="ecommerce actions"
@@ -110,7 +103,7 @@ const Products = (props) => {
                 }
                 {loading &&
                     [1, 2, 3].map(rep => (
-                        <Grid item xs={12} md={4} key={rep}>
+                        <Grid item xs={12} md={4} key={rep} sx={{mt: 2}}>
                             <Card>
                                 <Skeleton variant="rectangular" height={300} />
                                 <Skeleton sx={{ mt: 1, mb: 0.3 }} variant="rectangular" height={16} />
@@ -126,4 +119,4 @@ const Products = (props) => {
     );
 }
 
-export default Products;
+export default CategoryItem;
