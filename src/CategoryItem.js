@@ -27,7 +27,7 @@ const CategoryItem = ({match}) => {
     const consumer_key = "ck_c329e792c17199570591fac87fdedba24d51dc38";
     const consumer_secret = "cs_b6ac8847b7af33d51dca2660a4bcf1529578f37e";
 
-    const add = useContext(CartContext);
+    const appData = useContext(CartContext);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -83,12 +83,12 @@ const CategoryItem = ({match}) => {
                                     <SpeedDialAction
                                         icon={<AddShoppingCart />}
                                         tooltipTitle="Add to Cart"
-                                        onClick={add}
+                                        onClick={appData.buyNow}
                                     />
                                     <SpeedDialAction
                                         icon={<Visibility />}
                                         tooltipTitle="View Details"
-                                        to={`/${item.id}`}
+                                        to={`/products/${item.id}`}
                                         component={Link}
                                     />
                                     <SpeedDialAction

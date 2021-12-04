@@ -34,14 +34,14 @@ const SingleProduct = ({match}) => {
     const consumer_key = "ck_c329e792c17199570591fac87fdedba24d51dc38";
     const consumer_secret = "cs_b6ac8847b7af33d51dca2660a4bcf1529578f37e";
 
-    const add = useContext(CartContext);
+    const appData = useContext(CartContext);
 
     useEffect(() => {
         const fetchProduct = async () => {
             setLoading(true);
             const data = await axios.get(`${baseUrl}wc/v3/products/${productId}?consumer_key=${consumer_key}&consumer_secret=${consumer_secret}`);
             setProduct(data.data);
-            console.log(data.data);
+            // console.log(data.data);
             setLoading(false);
         }
         return fetchProduct();
@@ -67,7 +67,7 @@ const SingleProduct = ({match}) => {
                         Rating: {product.average_rating}
                     </Typography>
                     <div dangerouslySetInnerHTML={{ __html: product.description}}></div>
-                    <Button onClick={add} variant="contained" color="error">
+                    <Button onClick={appData.buyNow} variant="contained" color="error">
                         Add to Cart
                     </Button>
                 </Grid>
