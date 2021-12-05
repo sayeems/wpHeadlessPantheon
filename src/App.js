@@ -14,13 +14,17 @@ export const CartContext = React.createContext();
 
 function App() {
   const [count, setCount] = useState(0);
-
-  const addToCart = () => {
-      setCount( prevCount => prevCount+1);
-  }
+  const [cart, setCart] = useState([]);
 
   const appData = {
-    buyNow(){
+    buyNow(id, name, price, imagePath){
+      setCart([...cart, {
+        id,
+        name,
+        price,
+        image: imagePath,
+        quantity: 1
+      }]);
       setCount( prevCount => prevCount+1);
     },
   }
@@ -32,7 +36,7 @@ function App() {
         <Route exact path="/signin" component={SignIn} />
         <Route path="/">
         <TopHeader />
-          <Header count={count} />
+          <Header count={count} cart={cart} />
           <CartContext.Provider value={appData}>
             <div className="theContent">
               <Container style={{marginTop:'30px'}}>

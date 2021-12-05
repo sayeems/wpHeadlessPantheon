@@ -90,7 +90,7 @@ const Products = (props) => {
                                     <SpeedDialAction
                                         icon={<AddShoppingCart />}
                                         tooltipTitle="Add to Cart"
-                                        onClick={appData.buyNow}
+                                        onClick={() => appData.buyNow(item.id, item.name, item.price,item.images[0].src)}
                                     />
                                     <SpeedDialAction
                                         icon={<Visibility />}

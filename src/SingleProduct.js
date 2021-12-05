@@ -18,6 +18,7 @@ import {Grid,
     CardMedia,
     Skeleton,
     Box,
+    Rating
 } from '@mui/material';
 import {FormatListBulleted, Category} from '@mui/icons-material';
 import axios from 'axios';
@@ -60,15 +61,18 @@ const SingleProduct = ({match}) => {
                     <Typography gutterBottom variant="h4" component="div">
                         {product.name}
                     </Typography>
-                    <Typography gutterBottom variant="p" component="div">
-                    <div dangerouslySetInnerHTML={{ __html: product.price_html}}></div>
+                    <Typography gutterbottom variant="p" component="div">
+                        <Rating name="read-only" value={product.average_rating} readOnly />
                     </Typography>
-                    <Typography gutterBottom variant="p" component="div">
-                        Rating: {product.average_rating}
-                    </Typography>
-                    <div dangerouslySetInnerHTML={{ __html: product.description}}></div>
-                    <Button onClick={appData.buyNow} variant="contained" color="error">
-                        Add to Cart
+                    {product.on_sale 
+                        ? 
+                        <p className="price">৳{product.price} <del style={{color:'red'}}>৳{product.regular_price}</del></p>
+                        : 
+                        <p className="price">৳{product.price}</p> 
+                    }
+                    {/* <div dangerouslySetInnerHTML={{ __html: product.description}}></div> */}
+                    <Button onClick={appData.buyNow} variant="contained" color="primary">
+                        BUY NOW
                     </Button>
                 </Grid>
             </>)}

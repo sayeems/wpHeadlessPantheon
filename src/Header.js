@@ -16,7 +16,9 @@ import {
     ListItemAvatar,
     Avatar,
     Snackbar,
-    Alert
+    Alert,
+    Drawer,
+    Box
 } from '@mui/material';
 import Logo from './images/bazar_logo.svg';
 import {Search, Menu, Directions, Person, ShoppingCart, History, Settings, Logout} from '@mui/icons-material';
@@ -25,11 +27,14 @@ import {Link} from 'react-router-dom';
 import {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 
-const TopHeader = ({count}) => {
+const TopHeader = ({count,cart}) => {
     const history = useHistory();
     const [anchorEl, setAnchorEl] = useState(null);
     const [snackOpen, setSnackOpen] = useState(false);
     const [email, setEmail] = useState('');
+    const [drawerState, setDrawerState] = useState({
+        right: false,
+      });
     const handleClick = (event) => {
         const loginState = localStorage.getItem('__wp');
         if(loginState != null){
@@ -39,6 +44,14 @@ const TopHeader = ({count}) => {
             history.push('/signin');
         }
       };
+
+    const toggleDrawer = (anchor, open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+
+        setDrawerState({ ...drawerState, [anchor]: open });
+    };
 
       const handleSignOut = () => {
         localStorage.removeItem('__wp');
@@ -56,8 +69,37 @@ const TopHeader = ({count}) => {
       const open = Boolean(anchorEl);
       const id = open ? 'simple-popover' : undefined;
 
+      const list = (anchor) => (
+        <Box
+          sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 350 }}
+          role="presentation"
+        >
+          <List>
+            {cart.map((cartData, index) => (
+              <ListItem button key={`cartData-${index}`}>
+                <ListItemAvatar>
+                    <Avatar src={cartData.image} />
+                </ListItemAvatar>
+                <ListItemText 
+                primary={cartData.name}
+                secondary={`৳${cartData.price} | ${cartData.quantity}`} 
+                />
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+      );
+
     return (
         <div className="theHeader">
+            {/* app drawer -- cart */}
+            <Drawer
+            anchor="right"
+            open={drawerState['right']}
+            onClose={toggleDrawer('right',false)}
+            >
+                {list('right')}
+            </Drawer>
             <Snackbar open={snackOpen} autoHideDuration={4000} onClose={handleSnackClose}>
                 <Alert sx={{ width: '100%'}}>
                 You have successfully signed out
@@ -138,7 +180,7 @@ const TopHeader = ({count}) => {
                             <IconButton aria-label="user" onClick={handleClick}>
                                 <Person fontZise="large" />
                             </IconButton>
-                            <IconButton aria-label="cart">
+                            <IconButton aria-label="cart" onClick={toggleDrawer('right',true)}>
                                 <Badge badgeContent={count} color="primary">
                                     <ShoppingCart fontZise="large" />
                                 </Badge>
