@@ -52,13 +52,13 @@ const Products = (props) => {
     //sayeem
 
     return (
-        <Grid item xs={10} style={{ paddingLeft: '15px' }}>
+        <Grid item xs={7} sm={8} md={10} style={{ paddingLeft: '15px' }}>
             <h3>Products</h3>
             <Divider />
             <Grid container spacing={2}>
                 {!loading &&
                     products.map(item =>
-                        <Grid item xs={4} style={{ marginTop: '10px' }} key={item.id}>
+                        <Grid item xs={12} sm={6} md={4} style={{ marginTop: '10px' }} key={item.id}>
                             <Card sx={{ position: 'relative' }}>
                                 <CardMedia
                                     component="img"

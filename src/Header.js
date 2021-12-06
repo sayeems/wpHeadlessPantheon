@@ -18,20 +18,23 @@ import {
     Snackbar,
     Alert,
     Drawer,
-    Box
+    Box,
+    Button
 } from '@mui/material';
 import Logo from './images/bazar_logo.svg';
-import {Search, Menu, Directions, Person, ShoppingCart, History, Settings, Logout} from '@mui/icons-material';
+import {Search, Menu, Directions, Person, ShoppingCart, History, Settings, Logout, Delete, Add, Remove, ShoppingBasket} from '@mui/icons-material';
 import InputBase from '@mui/material/InputBase';
 import {Link} from 'react-router-dom';
 import {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 
-const TopHeader = ({count,cart}) => {
+const TopHeader = ({count,cart, add, remove, delCart, cartSum}) => {
     const history = useHistory();
     const [anchorEl, setAnchorEl] = useState(null);
     const [snackOpen, setSnackOpen] = useState(false);
     const [email, setEmail] = useState('');
+    const [avatar, setAvatar] = useState('');
+    const [fullName, setFullName] = useState('');
     const [drawerState, setDrawerState] = useState({
         right: false,
       });
@@ -40,6 +43,8 @@ const TopHeader = ({count,cart}) => {
         if(loginState != null){
             setAnchorEl(event.currentTarget);
            setEmail(JSON.parse(loginState).user_email);
+           setAvatar(JSON.parse(loginState).avatar);
+           setFullName(JSON.parse(loginState).full_name);
         }else{
             history.push('/signin');
         }
@@ -66,26 +71,72 @@ const TopHeader = ({count,cart}) => {
       const handleClose = () => {
         setAnchorEl(null);
       };
+      const handleCheckout = () => {
+        history.push('/checkout');
+        setDrawerState({ ...drawerState, ['right']: open });
+      }
       const open = Boolean(anchorEl);
       const id = open ? 'simple-popover' : undefined;
 
       const list = (anchor) => (
         <Box
-          sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 350 }}
+          sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 400 }}
           role="presentation"
         >
           <List>
-            {cart.map((cartData, index) => (
-              <ListItem button key={`cartData-${index}`}>
+            <ListItem>
                 <ListItemAvatar>
-                    <Avatar src={cartData.image} />
+                    <Avatar sx={{bgcolor:'#00b0ff'}}>
+                        <ShoppingCart />
+                    </Avatar>
                 </ListItemAvatar>
                 <ListItemText 
-                primary={cartData.name}
-                secondary={`৳${cartData.price} | ${cartData.quantity}`} 
+                primary={`${count} Items`}
                 />
-              </ListItem>
+            </ListItem>
+            {cart.map((cartData, index) => (
+                <>
+                    <Divider key={`cartDataDivider-${index}`} />
+                    <ListItem 
+                    key={`cartData-${index}`}
+                    secondaryAction={
+                        <>
+                        <IconButton edge="end" aria-label="add" size="medium" onClick={()=>add(cartData.id)}>
+                            <Add fontSize="inherit" />
+                        </IconButton>
+                        <IconButton edge="end" aria-label="delete" color="warning" size="medium" onClick={()=>delCart(cartData.id)}>
+                            <Delete fontSize="inherit" />
+                        </IconButton>
+                        <IconButton edge="end" aria-label="remove" size="medium" disabled={cartData.quantity <= 1} onClick={()=>remove(cartData.id)}>
+                            <Remove fontSize="inherit" />
+                        </IconButton>
+                        </>
+                    }
+                    
+                    >
+                        <ListItemAvatar>
+                            <Avatar src={cartData.image} variant="rounded"/>
+                        </ListItemAvatar>
+                        <ListItemText 
+                        primary={cartData.name}
+                        secondary={`৳${cartData.price} × ${cartData.quantity}`} 
+                        />
+                    </ListItem>
+                </>
             ))}
+            <Divider />
+            <ListItem>
+                <Button 
+                sx={{bgcolor:'#00b0ff'}}  
+                fullWidth 
+                variant="contained" 
+                startIcon={<ShoppingBasket />} 
+                disabled={count<1}
+                onClick={handleCheckout}
+                >
+                    Checkout [ ৳{cartSum} ]
+                </Button>
+            </ListItem>
           </List>
         </Box>
       );
@@ -139,15 +190,11 @@ const TopHeader = ({count,cart}) => {
                                 }}
                             >
                             <List>
-                                <ListItem disablePadding>
-                                    <ListItemButton disabled>
+                                <ListItem>
                                         <ListItemAvatar>
-                                            <Avatar color="primary" sx={{bgcolor:'pink'}}>
-                                                {email ? email.split('')[0].toUpperCase() : ''}
-                                            </Avatar>
+                                            <Avatar src={avatar} />
                                         </ListItemAvatar>
-                                        <ListItemText primary={email} />
-                                    </ListItemButton>
+                                        <ListItemText primary={fullName} secondary={email} />
                                 </ListItem>
                                 <Divider />
                                 <ListItem disablePadding>
@@ -176,13 +223,13 @@ const TopHeader = ({count,cart}) => {
                                 </ListItem>
                             </List>
                             </Popover>
-                        <Stack style={{paddingTop:'10px'}} direction="row" spacing={1}>
-                            <IconButton aria-label="user" onClick={handleClick}>
-                                <Person fontZise="large" />
+                        <Stack direction="row" spacing={1}>
+                            <IconButton aria-label="user" onClick={handleClick} size="large">
+                                <Person fontSize="inherit" />
                             </IconButton>
-                            <IconButton aria-label="cart" onClick={toggleDrawer('right',true)}>
+                            <IconButton aria-label="cart" onClick={toggleDrawer('right',true)} size="large">
                                 <Badge badgeContent={count} color="primary">
-                                    <ShoppingCart fontZise="large" />
+                                    <ShoppingCart fontSize="inherit" />
                                 </Badge>
                             </IconButton>
                         </Stack>

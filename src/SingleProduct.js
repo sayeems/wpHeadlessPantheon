@@ -71,20 +71,22 @@ const SingleProduct = ({match}) => {
                         <p className="price">৳{product.price}</p> 
                     }
                     {/* <div dangerouslySetInnerHTML={{ __html: product.description}}></div> */}
-                    <Button onClick={appData.buyNow} variant="contained" color="primary">
+                    <Button onClick={() => appData.buyNow(product.id, product.name, product.price, product.images[0].src)} variant="contained" color="primary">
                         BUY NOW
                     </Button>
                 </Grid>
             </>)}
             {loading && 
-                    <Grid item xs={12}>
-                        <Card>
-                            <Skeleton variant="rectangular" height={300} />
-                            <Skeleton sx={{mt: 1, mb:0.3}} variant="rectangular" height={16}/>
-                            <Skeleton variant="text"/>
-                            <Skeleton sx={{mb: 1}} variant="text"/>
-                        </Card>
+                    <>
+                    <Grid item xs={6}>
+                        <Skeleton variant="rectangular" height={300} />
                     </Grid>
+                    <Grid item xs={6}>
+                        <Skeleton sx={{mt: 1, mb:0.3}} variant="rectangular" height={16}/>
+                        <Skeleton variant="text"/>
+                        <Skeleton sx={{mb: 1}} variant="text"/>
+                    </Grid>
+                    </>
                 }
             
         </Grid>

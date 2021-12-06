@@ -50,7 +50,7 @@ const CategoryItem = ({match}) => {
             <Grid container spacing={2}>
                 {!loading &&
                     products.map(item =>
-                        <Grid item xs={4} style={{ marginTop: '10px' }} key={item.id}>
+                        <Grid item xs={12} sm={6} md={4} style={{ marginTop: '10px' }} key={item.id}>
                             <Card sx={{ position: 'relative' }}>
                                 <CardMedia
                                     component="img"
@@ -83,7 +83,7 @@ const CategoryItem = ({match}) => {
                                     <SpeedDialAction
                                         icon={<AddShoppingCart />}
                                         tooltipTitle="Add to Cart"
-                                        onClick={appData.buyNow}
+                                        onClick={() => appData.buyNow(item.id, item.name, item.price,item.images[0].src)}
                                     />
                                     <SpeedDialAction
                                         icon={<Visibility />}

@@ -36,7 +36,7 @@ const Sidebar = () => {
     },[]);
 
     return ( 
-        <Grid item xs={2}>
+        <Grid item xs={5} sm={4} md={2}>
             <Paper>
                 <List>
                     <ListItem>
