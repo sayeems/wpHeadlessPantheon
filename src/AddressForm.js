@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import {useState, useEffect} from 'react';
 
 export default function AddressForm() {
   return (
@@ -96,10 +97,38 @@ export default function AddressForm() {
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
-            label="Use this address for payment details"
+        <Grid item xs={12} sm={4}>
+          <TextField
+            required
+            id="email"
+            name="email"
+            label="Email"
+            fullWidth
+            autoComplete="Your email address"
+            variant="standard"
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            required
+            id="phone"
+            name="phone"
+            label="Phone"
+            fullWidth
+            autoComplete="Your mobile number"
+            variant="standard"
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            required
+            id="password"
+            name="password"
+            label="Password"
+            type="password"
+            fullWidth
+            autoComplete=""
+            variant="standard"
           />
         </Grid>
       </Grid>

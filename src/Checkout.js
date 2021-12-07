@@ -1,5 +1,3 @@
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -32,8 +30,6 @@ function getStepContent(step) {
     }
 }
 
-const theme = createTheme();
-
 const Checkout = (props) => {
 
     const [activeStep, setActiveStep] = useState(0);
@@ -48,26 +44,8 @@ const Checkout = (props) => {
 
     return (
         <Grid item xs={7} sm={8} md={10} style={{ paddingLeft: '15px' }}>
-            <AppBar
-                position="absolute"
-                color="default"
-                elevation={0}
-                sx={{
-                position: 'relative',
-                borderBottom: (t) => `1px solid ${t.palette.divider}`,
-                }}
-            >
-                <Toolbar>
-                <Typography variant="h6" color="inherit" noWrap>
-                    Company name
-                </Typography>
-                </Toolbar>
-            </AppBar>
-            <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-                <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                <Typography component="h1" variant="h4" align="center">
-                    Checkout
-                </Typography>
+            <Container component="main"  sx={{ mb: 4 }}>
+                <Paper variant="outlined" sx={{ p: { xs: 2, md: 3 } }}>
                 <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
                     {steps.map((label) => (
                     <Step key={label}>
@@ -79,7 +57,7 @@ const Checkout = (props) => {
                     {activeStep === steps.length ? (
                     <>
                         <Typography variant="h5" gutterBottom>
-                        Thank you for your order.
+                            Thank you for your order.
                         </Typography>
                         <Typography variant="subtitle1">
                         Your order number is #2001539. We have emailed your order
