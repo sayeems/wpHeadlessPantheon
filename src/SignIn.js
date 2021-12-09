@@ -36,14 +36,14 @@ const SignIn = () => {
         return checkLoginState();
     }, []);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         // eslint-disable-next-line no-console
         setError('');
         let username = data.get('username');
         let password = data.get('password');
-        axios.post('https://dev-wpsayeem.pantheonsite.io/wp-json/jwt-auth/v1/token', {
+        await axios.post('https://dev-wpsayeem.pantheonsite.io/wp-json/jwt-auth/v1/token', {
             username,
             password
         }).then(response=>{

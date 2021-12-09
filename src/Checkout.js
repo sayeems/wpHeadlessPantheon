@@ -13,30 +13,83 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 
 const steps = ['Shipping address', 'Payment details', 'Review your order'];
-
-function getStepContent(step) {
-    switch (step) {
-      case 0:
-        return <AddressForm />;
-      case 1:
-        return <PaymentForm />;
-      case 2:
-        return <Review />;
-      default:
-        throw new Error('Unknown step');
-    }
-}
 
 const Checkout = (props) => {
 
     const [activeStep, setActiveStep] = useState(0);
+    const [total, setTotal] = useState(0);
+    const history = useHistory();
+    const [addressData, setAddressData] = useState(
+        {
+            first_name: "sayeem",
+            last_name: "",
+            address_1: "",
+            address_2: "",
+            city: "",
+            state: "",
+            postcode: "",
+            country: "",
+            email: "",
+            phone: "",
+        }
+    );
+    const [paymentData, setPaymentData] = useState();
+    const [cartPAyload, setCartPayload] = useState();
+    const [cart, setCart] = useState();
+
+    const handleAddressData = (addressKey, addressValue) => {
+        setAddressData(
+            {...addressData,
+            [addressKey]: addressValue}
+        )
+    }
+
+    useEffect(() => {
+        const getCartData = () => {
+            let emptyArray = [];
+            let cartTotal = 0;
+            const data = localStorage.getItem('__cart');
+            if(data == null || data == "[]"){
+                history.push('/');
+            }else{
+                JSON.parse(localStorage.getItem("__cart")).map(c=>{
+                    emptyArray.push({
+                        product_id: c.id,
+                        quantity: c.quantity
+                    });
+                    cartTotal = cartTotal + (parseInt(c.price) * parseInt(c.quantity));
+                });
+                setCartPayload(emptyArray);
+                setTotal(cartTotal);
+                setCart(JSON.parse(localStorage.getItem("__cart")));
+            }
+        }
+        return getCartData();
+    },[]);
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
+        if(activeStep === steps.length -1 ){
+            // get form data here
+        }
     };
+
+    function getStepContent(step) {
+        switch (step) {
+          case 0:
+            return <AddressForm data={addressData} updateData={handleAddressData} />;
+          case 1:
+            return <PaymentForm />;
+          case 2:
+            return <Review total={total} cart={cart} />;
+          default:
+            throw new Error('Unknown step');
+        }
+    }
 
     const handleBack = () => {
         setActiveStep(activeStep - 1);

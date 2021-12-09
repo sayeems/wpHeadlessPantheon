@@ -29,6 +29,7 @@ function App() {
       }
       setCartSum(total);
       setCount(cart.length);
+      localStorage.setItem("__cart", JSON.stringify(cart));
     }
     return syncAppData();
   },[cart]);
