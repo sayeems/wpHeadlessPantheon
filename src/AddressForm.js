@@ -4,9 +4,14 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import {useState, useEffect} from 'react';
+import { create } from '@mui/material/styles/createTransitions';
 
 export default function AddressForm({updateData,data}) {
-
+  const[create, setCreate] = useState(false);
+  const handleCreate = (e) => {
+    setCreate(e.target.checked);
+    updateData(e.target.name, e.target.checked);
+  }
   return (
     <>
       <Typography variant="h6" gutterBottom>
@@ -22,7 +27,7 @@ export default function AddressForm({updateData,data}) {
             fullWidth
             autoComplete="given-name"
             variant="standard"
-            defaultValue={data.first_name}
+            value={data.first_name}
             onChange={(e)=>updateData(e.target.name, e.target.value)}
           />
         </Grid>
@@ -35,7 +40,7 @@ export default function AddressForm({updateData,data}) {
             fullWidth
             autoComplete="family-name"
             variant="standard"
-            defaultValue={data.last_name}
+            value={data.last_name}
             onChange={(e)=>updateData(e.target.name, e.target.value)}
           />
         </Grid>
@@ -48,7 +53,7 @@ export default function AddressForm({updateData,data}) {
             fullWidth
             autoComplete="shipping address-line1"
             variant="standard"
-            defaultValue={data.address_1}
+            value={data.address_1}
             onChange={(e)=>updateData(e.target.name, e.target.value)}
           />
         </Grid>
@@ -60,7 +65,7 @@ export default function AddressForm({updateData,data}) {
             fullWidth
             autoComplete="shipping address-line2"
             variant="standard"
-            defaultValue={data.address_2}
+            value={data.address_2}
             onChange={(e)=>updateData(e.target.name, e.target.value)}
           />
         </Grid>
@@ -73,7 +78,7 @@ export default function AddressForm({updateData,data}) {
             fullWidth
             autoComplete="shipping address-level2"
             variant="standard"
-            defaultValue={data.city}
+            value={data.city}
             onChange={(e)=>updateData(e.target.name, e.target.value)}
           />
         </Grid>
@@ -84,7 +89,7 @@ export default function AddressForm({updateData,data}) {
             label="State/Province/Region"
             fullWidth
             variant="standard"
-            defaultValue={data.state}
+            value={data.state}
             onChange={(e)=>updateData(e.target.name, e.target.value)}
           />
         </Grid>
@@ -97,7 +102,7 @@ export default function AddressForm({updateData,data}) {
             fullWidth
             autoComplete="shipping postal-code"
             variant="standard"
-            defaultValue={data.postcode}
+            value={data.postcode}
             onChange={(e)=>updateData(e.target.name, e.target.value)}
           />
         </Grid>
@@ -110,11 +115,11 @@ export default function AddressForm({updateData,data}) {
             fullWidth
             autoComplete="shipping country"
             variant="standard"
-            defaultValue={data.country}
+            value={data.country}
             onChange={(e)=>updateData(e.target.name, e.target.value)}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6}>
           <TextField
             required
             id="email"
@@ -123,11 +128,11 @@ export default function AddressForm({updateData,data}) {
             fullWidth
             autoComplete="Your email address"
             variant="standard"
-            defaultValue={data.email}
+            value={data.email}
             onChange={(e)=>updateData(e.target.name, e.target.value)}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6}>
           <TextField
             required
             id="phone"
@@ -140,19 +145,49 @@ export default function AddressForm({updateData,data}) {
             onChange={(e)=>updateData(e.target.name, e.target.value)}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
-          <TextField
-            required
-            id="password"
-            name="password"
-            label="Password"
-            type="password"
-            fullWidth
-            autoComplete=""
-            variant="standard"
-            onChange={(e)=>updateData(e.target.name, e.target.value)}
-          />
+        {
+          data.sign == "false" ? 
+          <Grid item xs={12} sm={12}>
+          <Grid item xs={12}>
+            <FormControlLabel
+              control={<Checkbox color="primary" name="createAccount" />}
+              label="Create my account"
+              onChange={(e)=>handleCreate(e)}
+            />
+          </Grid>
         </Grid>
+        :
+        ""
+        }
+        {create && <>
+        
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id="username"
+              name="username"
+              label="Username"
+              fullWidth
+              autoComplete=""
+              variant="standard"
+              onChange={(e)=>updateData(e.target.name, e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id="password"
+              name="password"
+              label="Password"
+              type="password"
+              fullWidth
+              autoComplete=""
+              variant="standard"
+              onChange={(e)=>updateData(e.target.name, e.target.value)}
+            />
+          </Grid>
+        
+        </>}
       </Grid>
     </>
   );

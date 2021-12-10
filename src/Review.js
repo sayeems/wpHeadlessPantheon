@@ -10,23 +10,7 @@ import {useHistory} from 'react-router-dom';
 
 const addresses = ['1 MUI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
 
-export default function Review({total, cart}) {
-
-  // const [cartData, setCartData] = useState([]);
-  // const [total, setTotal] = useState();
-  // const history = useHistory();
-
-  // useEffect(() => {
-  //   const getData = () => {
-  //     let cartTotal = 0;
-  //       setCartData(JSON.parse(localStorage.getItem('__cart')));
-  //       cartData.map(t=>{
-  //         cartTotal = cartTotal + (parseInt(t.price) * parseInt(t.quantity));
-  //       });
-  //       setTotal(cartTotal);
-  //   }
-  //   return getData();
-  // }, []);
+export default function Review({total, cart, shipping}) {
 
   return (
     <>
@@ -56,8 +40,10 @@ export default function Review({total, cart}) {
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
             Shipping
           </Typography>
-          <Typography gutterBottom>John Smith</Typography>
-          {/* <Typography gutterBottom>{addresses.join(', ')}</Typography> */}
+          <Typography gutterBottom>{`${shipping.first_name} ${shipping.last_name}`}</Typography>
+          <Typography gutterBottom>{shipping.address_1}</Typography>
+          <Typography gutterBottom>{shipping.address_2}</Typography>
+          <Typography gutterBottom>{shipping.phone}</Typography>
         </Grid>
       </Grid>
     </>

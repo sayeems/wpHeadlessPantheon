@@ -60,12 +60,14 @@ const Products = (props) => {
                     products.map(item =>
                         <Grid item xs={12} sm={6} md={4} style={{ marginTop: '10px' }} key={item.id}>
                             <Card sx={{ position: 'relative' }}>
+                                <Link to={`/products/${item.id}`}>
                                 <CardMedia
                                     component="img"
                                     height="300"
                                     image={item.images[0].src}
                                 >
                                 </CardMedia>
+                                </Link>
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" component="div">
                                         {item.name}

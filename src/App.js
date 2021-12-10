@@ -84,6 +84,9 @@ function App() {
         return c.id != id;
       });
       setCart(updateCart);
+    },
+    emptyCart(){
+      setCart([]);
     }
   }
 

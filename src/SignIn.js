@@ -23,6 +23,7 @@ const theme = createTheme();
 const SignIn = () => {
 
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     let history = useHistory();
 
     useEffect(() => {
@@ -38,6 +39,7 @@ const SignIn = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setLoading(true);
         const data = new FormData(event.currentTarget);
         // eslint-disable-next-line no-console
         setError('');
@@ -51,6 +53,7 @@ const SignIn = () => {
             history.push('/');
         }).catch(error=>{
             setError('Incorrect username or password');
+            setLoading(false);
         });
     };
 
@@ -97,7 +100,7 @@ const SignIn = () => {
                 required
                 fullWidth
                 id="email"
-                label="Username"
+                label="Username/Email"
                 name="username"
                 autoComplete="username"
                 autoFocus
@@ -122,21 +125,10 @@ const SignIn = () => {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 0, mb: 2 }}
+                disabled={loading}
               >
                 Sign In
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
             </Box>
           </Box>
         </Grid>

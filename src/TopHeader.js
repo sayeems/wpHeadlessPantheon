@@ -17,7 +17,7 @@ const TopHeader = () => {
                             <Email style={{
                                 marginLeft: '15px',
                             }} />
-                            <span style={{paddingLeft:'5px', fontWeight:'normal', fontSize:'14px'}}>sayeems@gmail.com</span>
+                            <span style={{paddingLeft:'5px', fontWeight:'normal', fontSize:'14px'}}>sayeem.shahria@pantheon.io</span>
                         </div> 
                     </Grid>
                     <Grid item xs={3}>

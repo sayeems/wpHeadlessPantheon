@@ -49,6 +49,7 @@ const Sidebar = () => {
                     {!loading && 
                     
                     categories.map(cat=>
+                        <>
                         <ListItem key={`cat_${cat.id}`} disablePadding>
                             <ListItemButton to={`/category/${cat.id}`} component={NavLink} activeClassName="active" disablepadding>
                                 <ListItemIcon>
@@ -57,6 +58,8 @@ const Sidebar = () => {
                                 <ListItemText primary={cat.name} />
                             </ListItemButton>
                         </ListItem>
+                        <Divider />
+                        </>
                     )
                     
                     }
